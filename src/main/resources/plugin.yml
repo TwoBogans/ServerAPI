@@ -1,7 +1,7 @@
-name: ServerTap
-main: io.servertap.PluginEntrypoint
-version: 0.1.2-SNAPSHOT
-description: ServerTap is a REST API for Bukkit/Spigot/PaperMC Minecraft servers.
+name: ServerAPI
+main: io.servertap.Main
+version: 0.1.2
+description: ServerAPI is a REST API for 2b2t.com.au.
 api-version: 1.14
 softdepend:
   - WorldStats

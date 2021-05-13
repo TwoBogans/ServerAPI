@@ -3,8 +3,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.servertap</groupId>
-    <artifactId>ServerTap</artifactId>
-    <version>0.1.2-SNAPSHOT</version>
+    <artifactId>ServerAPI</artifactId>
+    <version>0.1.2</version>
 
     <scm>
         <developerConnection>scm:git:ssh://git@github.com/phybros/servertap.git</developerConnection>

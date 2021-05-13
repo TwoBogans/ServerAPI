@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 import static io.javalin.apibuilder.ApiBuilder.get;
 import static io.javalin.apibuilder.ApiBuilder.path;
 
-public class PluginEntrypoint extends JavaPlugin {
+public class Main extends JavaPlugin {
 
     private static final Logger log = Bukkit.getLogger();
     private static Javalin app;
@@ -40,7 +40,7 @@ public class PluginEntrypoint extends JavaPlugin {
 
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 
-        Thread.currentThread().setContextClassLoader(PluginEntrypoint.class.getClassLoader());
+        Thread.currentThread().setContextClassLoader(Main.class.getClassLoader());
 
         if (app == null) {
             app = Javalin.create(config -> {
