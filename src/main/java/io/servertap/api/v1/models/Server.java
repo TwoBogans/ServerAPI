@@ -2,63 +2,89 @@ package io.servertap.api.v1.models;
 
 import com.google.gson.annotations.Expose;
 
-import java.util.Set;
-
-/**
- * A Bukkit/Spigot/Paper server
- */
 public class Server {
-    @Expose
-    private String name = null;
 
     @Expose
-    private String motd = null;
+    private String name;
 
     @Expose
-    private String version = null;
+    private String motd;
 
     @Expose
-    private String bukkitVersion = null;
+    private String version;
 
     @Expose
-    private String tps = null;
+    private String tps;
 
     @Expose
-    private ServerHealth health = null;
+    private int online;
 
     @Expose
-    private Set<ServerBan> bannedIps = null;
+    private Integer cpus = 0;
 
     @Expose
-    private Set<ServerBan> bannedPlayers = null;
+    private Long uptime = 0L;
 
     @Expose
-    private Set<Whitelist> whitelistedPlayers = null;
+    private Long totalMemory = 0L;
+
+    @Expose
+    private Long maxMemory = 0L;
+
+    @Expose
+    private Long freeMemory = 0L;
+
+    public Integer getCpus() {
+        return cpus;
+    }
+
+    public void setCpus(Integer cpus) {
+        this.cpus = cpus;
+    }
+
+    public Long getUptime() {
+        return uptime;
+    }
+
+    public void setUptime(Long uptime) {
+        this.uptime = uptime;
+    }
+
+    public Long getTotalMemory() {
+        return totalMemory;
+    }
+
+    public void setTotalMemory(Long totalMemory) {
+        this.totalMemory = totalMemory;
+    }
+
+    public Long getMaxMemory() {
+        return maxMemory;
+    }
+
+    public void setMaxMemory(Long maxMemory) {
+        this.maxMemory = maxMemory;
+    }
+
+    public Long getFreeMemory() {
+        return freeMemory;
+    }
+
+    public void setFreeMemory(Long freeMemory) {
+        this.freeMemory = freeMemory;
+    }
 
     public Server name(String name) {
         this.name = name;
         return this;
     }
 
-    /**
-     * The name of the server
-     *
-     * @return name
-     **/
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public ServerHealth getHealth() {
-        return health;
-    }
-
-    public void setHealth(ServerHealth health) {
-        this.health = health;
     }
 
     public String getMotd() {
@@ -85,35 +111,8 @@ public class Server {
         this.tps = tps;
     }
 
-    public String getBukkitVersion() {
-        return bukkitVersion;
-    }
+    public int getOnline() { return online; }
 
-    public void setBukkitVersion(String bukkitVersion) {
-        this.bukkitVersion = bukkitVersion;
-    }
+    public void setOnline(int online) { this.online = online; }
 
-    public Set<ServerBan> getBannedIps() {
-        return bannedIps;
-    }
-
-    public void setBannedIps(Set<ServerBan> bannedIps) {
-        this.bannedIps = bannedIps;
-    }
-
-    public Set<ServerBan> getBannedPlayers() {
-        return bannedPlayers;
-    }
-
-    public void setBannedPlayers(Set<ServerBan> bannedPlayers) {
-        this.bannedPlayers = bannedPlayers;
-    }
-
-    public Set<Whitelist> getWhitelistedPlayers() {
-        return whitelistedPlayers;
-    }
-
-    public void setWhitelistedPlayers(Set<Whitelist> whitelistPlayers) {
-        this.whitelistedPlayers = whitelistPlayers;
-    }
 }

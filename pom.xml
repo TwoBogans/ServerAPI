@@ -91,6 +91,13 @@
             <version>1.7</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.github.moom0o</groupId>
+            <artifactId>WorldStatsRewritten</artifactId>
+            <version>-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/worldstats-1.7.jar</systemPath>
+        </dependency>
     </dependencies>
 
     <build>

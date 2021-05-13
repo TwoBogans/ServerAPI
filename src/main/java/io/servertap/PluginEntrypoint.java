@@ -4,12 +4,12 @@ import io.javalin.Javalin;
 import io.javalin.plugin.openapi.OpenApiOptions;
 import io.javalin.plugin.openapi.OpenApiPlugin;
 import io.javalin.plugin.openapi.ui.SwaggerOptions;
-import io.servertap.api.v1.EconomyApi;
 import io.servertap.api.v1.PlayerApi;
 import io.servertap.api.v1.ServerApi;
+import io.servertap.api.v1.StatsApi;
 import io.swagger.v3.oas.models.info.Info;
-import net.milkbowl.vault.economy.Economy;
-import org.bstats.bukkit.Metrics;
+import me.moomoo.worldstats.StatsAPI;
+import me.moomoo.worldstats.WorldStats;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -19,22 +19,24 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
-import static io.javalin.apibuilder.ApiBuilder.*;
+import static io.javalin.apibuilder.ApiBuilder.get;
+import static io.javalin.apibuilder.ApiBuilder.path;
 
 public class PluginEntrypoint extends JavaPlugin {
 
     private static final Logger log = Bukkit.getLogger();
-    private static Economy econ = null;
-    private static Javalin app = null;
+    private static Javalin app;
+
+    public static WorldStats worldStats;
 
     @Override
     public void onEnable() {
-        // Tell bStats what plugin this is
-        Metrics metrics = new Metrics(this, 9492);
-
         saveDefaultConfig();
         FileConfiguration bukkitConfig = getConfig();
-        setupEconomy();
+
+        if (getServer().getPluginManager().getPlugin("WorldStats") != null) {
+            worldStats = (WorldStats) getServer().getPluginManager().getPlugin("WorldStats");
+        }
 
         Bukkit.getScheduler().runTaskTimer(this, new Lag(), 100, 1);
 
@@ -76,50 +78,19 @@ public class PluginEntrypoint extends JavaPlugin {
         }
         app.routes(() -> {
             // Routes for v1 of the API
-            path(Constants.API_V1, () -> {
-                // Pings
-                get("ping", ServerApi::ping);
-
-                // Server routes
-                get("server", ServerApi::serverGet);
-                post("server/exec", ServerApi::postCommand);
-                get("server/ops", ServerApi::getOps);
-                post("server/ops", ServerApi::opPlayer);
-                delete("server/ops", ServerApi::deopPlayer);
-                get("server/whitelist", ServerApi::whitelistGet);
-                post("server/whitelist", ServerApi::whitelistPost);
-                get("worlds", ServerApi::worldsGet);
-                post("worlds/save", ServerApi::saveAllWorlds);
-                get("worlds/:uuid", ServerApi::worldGet);
-                post("worlds/:uuid/save", ServerApi::saveWorld);
-                get("scoreboard", ServerApi::scoreboardGet);
-                get("scoreboard/:name", ServerApi::objectiveGet);
-
-                // Chat
-                post("chat/broadcast", ServerApi::broadcastPost);
-                post("chat/tell", ServerApi::tellPost);
-
-                // Player routes
+            path("v1", () -> {
                 get("players", PlayerApi::playersGet);
                 get("players/all", PlayerApi::offlinePlayersGet);
-                get("players/:uuid", PlayerApi::playerGet);
-                get("players/:playerUuid/:worldUuid/inventory", PlayerApi::getPlayerInv);
-
-                // Economy routes
-                post("economy/pay", EconomyApi::playerPay);
-                post("economy/debit", EconomyApi::playerDebit);
-                get("economy", EconomyApi::getEconomyPluginInformation);
-
-                // Plugin routes
-                get("plugins", ServerApi::listPlugins);
+                get("server", ServerApi::serverGet);
+                get("stats", StatsApi::statsGet);
             });
         });
 
         // Put the original class loader back where it was.
         Thread.currentThread().setContextClassLoader(classLoader);
 
-        getServer().getPluginManager().registerEvents(new WebhookEventListener(this), this);
     }
+
 
     @Override
     public void onDisable() {
@@ -128,21 +99,6 @@ public class PluginEntrypoint extends JavaPlugin {
         if (app != null) {
             app.stop();
         }
-    }
-
-    private void setupEconomy() {
-        if (getServer().getPluginManager().getPlugin("Vault") == null) {
-            return;
-        }
-        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
-        if (rsp == null) {
-            return;
-        }
-        econ = rsp.getProvider();
-    }
-
-    public static Economy getEconomy() {
-        return econ;
     }
 
     private OpenApiOptions getOpenApiOptions() {
