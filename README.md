@@ -1,6 +1,6 @@
 # ServerAPI
 
-ServerAPI is a REST API for Bukkit, Spigot, and PaperMC Minecraft servers. Designed for 2b2t.com.au
+ServerAPI is a REST API for [2b2t.com.au](https://2b2t.com.au) 
 
 # Discord
 
@@ -15,27 +15,18 @@ For a list of endpoints visit https://api.2b2t.com.au/swagger
 ```bash
 $ curl https://api.2b2t.com.au/v1/server
 ```
-
 ```json
 {
-  "name": "Paper",
-  "motd": "This is my MOTD",
-  "version": "git-Paper-89 (MC: 1.15.2)",
-  "bukkitVersion": "1.15.2-R0.1-SNAPSHOT",
-  "health": {
-    "cpus": 4,
-    "uptime": 744,
-    "totalMemory": 2010644480,
-    "maxMemory": 2010644480,
-    "freeMemory": 1332389360
-  },
-  "bannedIps": [],
-  "bannedPlayers": [
-    {
-      "target": "phybros",
-      "source": "Server"
-    }
-  ]
+  "name": "2b2tAU",
+  "motd": "2b2t Australia",
+  "version": "1.12.2-R0.1-SNAPSHOT",
+  "tps": "19.3",
+  "online": 64,
+  "cpus": 8,
+  "uptime": 4657204,
+  "totalMemory": 23622320128,
+  "maxMemory": 23622320128,
+  "freeMemory": 3089104896
 }
 ```
 
@@ -44,19 +35,11 @@ Or get a list of players that are currently online:
 ```bash
 $ curl https://api.2b2t.com.au/v1/players
 ```
-
 ```json
 [
   {
-    "uuid": "55f584e4-f095-48e0-bb8a-eb5c87ffe494",
-    "displayName": "phybros",
-    "address": "localhost",
-    "port": 58529,
-    "exhaustion": 3.5640976,
-    "exp": 0.45454547,
-    "whitelisted": false,
-    "banned": false,
-    "op": true
+    "uuid": "a68b9c6e-1606-4b0c-934f-198300d77d2b",
+    "displayName": "RemainingToest"
   }
 ]
 ```
