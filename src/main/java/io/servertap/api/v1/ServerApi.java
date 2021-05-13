@@ -5,7 +5,7 @@ import io.javalin.plugin.openapi.annotations.OpenApi;
 import io.javalin.plugin.openapi.annotations.OpenApiContent;
 import io.javalin.plugin.openapi.annotations.OpenApiParam;
 import io.javalin.plugin.openapi.annotations.OpenApiResponse;
-import io.servertap.Lag;
+import io.servertap.TPS;
 import io.servertap.api.v1.models.Server;
 import org.bukkit.Bukkit;
 
@@ -31,7 +31,7 @@ public class ServerApi {
         server.setMotd(Bukkit.getServer().getMotd());
         server.setVersion(Bukkit.getServer().getBukkitVersion());
         server.setOnline(Bukkit.getOnlinePlayers().size());
-        server.setTps(Lag.getTPSString());
+        server.setTps(TPS.getTPSString());
         server.setCpus(Runtime.getRuntime().availableProcessors());
         server.setUptime(ManagementFactory.getRuntimeMXBean().getUptime());
         server.setMaxMemory(Runtime.getRuntime().maxMemory());

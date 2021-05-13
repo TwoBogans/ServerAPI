@@ -1,6 +1,6 @@
 package io.servertap;
 
-public class Lag implements Runnable {
+public class TPS implements Runnable {
 
     private static final long[] TICKS = new long[600];
     private static int TICK_COUNT = 0;
