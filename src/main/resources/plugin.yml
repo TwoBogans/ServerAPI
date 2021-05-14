@@ -2,6 +2,7 @@ name: ServerAPI
 main: io.servertap.Main
 version: 0.1.2
 description: ServerAPI is a REST API for 2b2t.com.au.
-api-version: 1.14
+api-version: 1.12
 softdepend:
   - WorldStats
+  - RandomMOTD
