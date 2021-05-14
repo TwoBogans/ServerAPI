@@ -1,69 +1,40 @@
 package io.servertap.api.v1.models;
 
 import com.google.gson.annotations.Expose;
+import lombok.Getter;
+import lombok.Setter;
 
 public class Performance {
 
     @Expose
+    @Getter
+    @Setter
     private double tps;
 
     @Expose
+    @Getter
+    @Setter
     private Long uptimeLong;
 
     @Expose
-    private Long totalMemory = 0L;
+    @Getter
+    @Setter
+    private Long totalMemory;
 
     @Expose
-    private Long maxMemory = 0L;
+    @Getter
+    @Setter
+    private Long maxMemory;
 
     @Expose
-    private Long freeMemory = 0L;
+    @Getter
+    @Setter
+    private Long freeMemory;
 
     @Expose
-    private Integer cpus = 0;
-
-    public double getTps() {
-        return tps;
-    }
-
-    public void setTps(double tps) {
-        this.tps = tps;
-    }
-
-    public Long getUptimeLong() { return uptimeLong; }
-
-    public void setUptimeLong(Long uptime) { this.uptimeLong = uptime; }
-
-    public Long getTotalMemory() {
-        return totalMemory;
-    }
-
-    public void setTotalMemory(Long totalMemory) {
-        this.totalMemory = totalMemory;
-    }
-
-    public Long getMaxMemory() {
-        return maxMemory;
-    }
-
-    public void setMaxMemory(Long maxMemory) {
-        this.maxMemory = maxMemory;
-    }
-
-    public Long getFreeMemory() {
-        return freeMemory;
-    }
-
-    public void setFreeMemory(Long freeMemory) {
-        this.freeMemory = freeMemory;
-    }
-
-    public Integer getCpus() { return cpus; }
-
-    public void setCpus(Integer cpus) {
-        this.cpus = cpus;
-    }
-
+    @Getter
+    @Setter
+    private Integer cpus;
 
 
 }

@@ -1,77 +1,41 @@
 package io.servertap.api.v1.models;
 
 import com.google.gson.annotations.Expose;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Calendar;
 
-/**
- * A Bukkit/Spigot/Paper server
- */
 public class Stats {
 
     @Expose
-    private String size;
+    @Getter
+    @Setter
+    private double size;
 
     @Expose
+    @Getter
+    @Setter
     private int players;
 
     @Expose
+    @Getter
+    @Setter
     private long age;
 
     @Expose
+    @Getter
+    @Setter
     private int years;
 
     @Expose
+    @Getter
+    @Setter
     private int months;
 
     @Expose
+    @Getter
+    @Setter
     private int days;
 
-    public String getSize() {
-        return size;
-    }
-
-    public void setSize(String size) {
-        this.size = size;
-    }
-
-    public int getPlayers() {
-        return players;
-    }
-
-    public void setPlayers(int players) {
-        this.players = players;
-    }
-
-    public long getAge() {
-        return age;
-    }
-
-    public void setAge(long age) {
-        this.age = age;
-    }
-
-    public void setYears(int years) {
-        this.years = years;
-    }
-
-    public int getYears() {
-        return years;
-    }
-
-    public void setMonths(int months) {
-        this.months = months;
-    }
-
-    public int getMonths() {
-        return months;
-    }
-
-    public void setDays(int days) {
-        this.days = days;
-    }
-
-    public int getDays() {
-        return days;
-    }
 }

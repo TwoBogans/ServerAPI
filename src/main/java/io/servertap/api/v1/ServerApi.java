@@ -36,16 +36,16 @@ public class ServerApi {
         server.setUptime(Util.getReadableTime(uptime));
         server.setOnline(Bukkit.getOnlinePlayers().size());
 
-        Performance performance = new Performance();
+//        Performance performance = new Performance();
 
-        performance.setTps(Util.getTPSFormatted());
-        performance.setUptimeLong(uptime);
-        performance.setCpus(Runtime.getRuntime().availableProcessors());
-        performance.setMaxMemory(Runtime.getRuntime().maxMemory());
-        performance.setTotalMemory(Runtime.getRuntime().totalMemory());
-        performance.setFreeMemory(Runtime.getRuntime().freeMemory());
+        server.getPerformance().setTps(Util.getTPSFormatted());
+        server.getPerformance().setUptimeLong(uptime);
+        server.getPerformance().setCpus(Runtime.getRuntime().availableProcessors());
+        server.getPerformance().setMaxMemory(Runtime.getRuntime().maxMemory());
+        server.getPerformance().setTotalMemory(Runtime.getRuntime().totalMemory());
+        server.getPerformance().setFreeMemory(Runtime.getRuntime().freeMemory());
 
-        server.setPerformance(performance);
+//        server.setPerformance(performance);
 
         ctx.json(server);
     }

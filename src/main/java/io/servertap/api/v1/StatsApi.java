@@ -25,7 +25,7 @@ public class StatsApi {
         Stats stats = new Stats();
 
         stats.setAge(Main.worldStats.getApi().getAge());
-        stats.setSize(Main.worldStats.getApi().getSize());
+        stats.setSize(Double.parseDouble(Main.worldStats.getApi().getSize()));
         stats.setPlayers(Main.worldStats.getApi().getPlayers());
         stats.setYears(Main.worldStats.getApi().getYears());
         stats.setMonths(Main.worldStats.getApi().getMonths());

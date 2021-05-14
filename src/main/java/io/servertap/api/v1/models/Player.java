@@ -1,101 +1,55 @@
 package io.servertap.api.v1.models;
 
 import com.google.gson.annotations.Expose;
-import io.servertap.Util;
 import io.servertap.api.v1.models.stats.Statistics;
+import lombok.Getter;
+import lombok.Setter;
 
-/**
- * An online player
- */
 public class Player {
+
     @Expose
+    @Getter
+    @Setter
     private String uuid;
 
     @Expose
+    @Getter
+    @Setter
     private String displayName;
 
     @Expose
+    @Getter
+    @Setter
     private long ticksAlive;
 
     @Expose
+    @Getter
+    @Setter
     private long joinDateMillis;
 
     @Expose
+    @Getter
+    @Setter
     private long playTimeTicks;
 
     @Expose
+    @Getter
+    @Setter
     private String joinDate;
 
     @Expose
+    @Getter
+    @Setter
     private String playTime;
 
     @Expose
+    @Getter
+    @Setter
     private String lastDeath;
 
     @Expose
-    private Statistics statistics;
+    @Getter
+    @Setter
+    private Statistics statistics = new Statistics();
 
-    public void setStatistics(Statistics statistics) { this.statistics = statistics; }
-
-    public Statistics getStatistics() { return statistics; }
-
-    public void setLastDeath(String lastDeath) {
-        this.lastDeath = lastDeath;
-    }
-
-    public String getLastDeath() {
-        return lastDeath;
-    }
-
-    public void setTicksAlive(long ticksAlive) { this.ticksAlive = ticksAlive; }
-
-    public long getTicksAlive() { return ticksAlive; }
-
-    public void setJoinDateMillis(long joinDateMillis) {
-        this.joinDateMillis = joinDateMillis;
-        this.joinDate = Util.getFormattedDate(joinDateMillis);
-    }
-
-    public String getJoinDate() {
-        return joinDate;
-    }
-
-    public long getJoinDateMillis() { return joinDateMillis; }
-
-    public void setPlayTimeTicks(long playTimeTicks) {
-        this.playTimeTicks = playTimeTicks;
-        this.playTime = Util.getFormattedTicks(playTimeTicks);
-    }
-
-    public String getPlayTime() {
-        return playTime;
-    }
-
-    public long getPlayTimeTicks() { return playTimeTicks; }
-
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
-
-    public Player uuid(String uuid) {
-        this.uuid = uuid;
-        return this;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
-
-    public Player displayName(String displayName) {
-        this.displayName = displayName;
-        return this;
-    }
 }

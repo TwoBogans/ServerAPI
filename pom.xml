@@ -55,11 +55,12 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.10.5.1</version>
         </dependency>
-        <!-- for Vault integration-->
+        <!-- for Getters / Setters -->
         <dependency>
-            <groupId>net.milkbowl.vault</groupId>
-            <artifactId>VaultAPI</artifactId>
-            <version>1.7</version>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.20</version>
+            <scope>provided</scope>
         </dependency>
         <!-- NBT API integration -->
         <dependency>
@@ -104,6 +105,20 @@
             <version>-SNAPSHOT</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/libs/RandomMOTD-1.0.0.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>me.clip</groupId>
+            <artifactId>placeholderapi</artifactId>
+            <version>-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/PlaceholderAPI.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>net.pistonmaster.pistonqueueplaceholder</groupId>
+            <artifactId>PistonQueuePlaceholder</artifactId>
+            <version>-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/PistonQueuePlaceholder.jar</systemPath>
         </dependency>
     </dependencies>
 

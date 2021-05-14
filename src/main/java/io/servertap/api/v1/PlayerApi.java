@@ -40,10 +40,10 @@ public class PlayerApi {
             p.setJoinDateMillis(player.getFirstPlayed());
             p.setPlayTimeTicks(player.getStatistic(Statistic.PLAY_ONE_TICK));
             p.setLastDeath(Util.getFormattedTicks(player.getStatistic(Statistic.TIME_SINCE_DEATH)));
+            p.setJoinDate(Util.getFormattedDate(p.getJoinDateMillis()));
+            p.setPlayTime(Util.getFormattedTicks(p.getPlayTimeTicks()));
 
-            Statistics stats = new Statistics();
-
-            stats.setDistanceFlown(player.getStatistic(Statistic.FLY_ONE_CM));
+            p.getStatistics().setDistanceFlown(player.getStatistic(Statistic.FLY_ONE_CM));
 //TODO:       WALK_ONE_CM,
 //            SWIM_ONE_CM,
 //            FALL_ONE_CM,
@@ -57,23 +57,17 @@ public class PlayerApi {
 //            SPRINT_ONE_CM,
 //            CROUCH_ONE_CM,
 //            AVIATE_ONE_CM,
-            stats.setPlayerKills(player.getStatistic(Statistic.PLAYER_KILLS));
-            stats.setMobKills(player.getStatistic(Statistic.MOB_KILLS));
-            stats.setDeaths(player.getStatistic(Statistic.DEATHS));
+            p.getStatistics().setPlayerKills(player.getStatistic(Statistic.PLAYER_KILLS));
+            p.getStatistics().setMobKills(player.getStatistic(Statistic.MOB_KILLS));
+            p.getStatistics().setDeaths(player.getStatistic(Statistic.DEATHS));
 
-            Mined mined = new Mined();
+            p.getStatistics().getMined().setObsidian(player.getStatistic(Statistic.MINE_BLOCK, Material.OBSIDIAN));
+            p.getStatistics().getMined().setEnderChest(player.getStatistic(Statistic.MINE_BLOCK, Material.ENDER_CHEST));
 
-            mined.setObsidian(player.getStatistic(Statistic.MINE_BLOCK, Material.OBSIDIAN));
-            mined.setEnderChest(player.getStatistic(Statistic.MINE_BLOCK, Material.ENDER_CHEST));
-            stats.setMined(mined);
+            p.getStatistics().getPlaced().setObsidian(player.getStatistic(Statistic.USE_ITEM, Material.OBSIDIAN));
+            p.getStatistics().getPlaced().setEnderChests(player.getStatistic(Statistic.USE_ITEM, Material.ENDER_CHEST));
 
-            Placed placed = new Placed();
-
-            placed.setObsidian(player.getStatistic(Statistic.USE_ITEM, Material.OBSIDIAN));
-            placed.setEnderChests(player.getStatistic(Statistic.USE_ITEM, Material.ENDER_CHEST));
-            stats.setPlaced(placed);
-
-            p.setStatistics(stats);
+//            p.setStatistics(stats);
             players.add(p);
         }));
 

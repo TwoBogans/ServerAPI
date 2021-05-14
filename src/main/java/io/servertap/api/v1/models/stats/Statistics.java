@@ -1,70 +1,38 @@
 package io.servertap.api.v1.models.stats;
 
 import com.google.gson.annotations.Expose;
+import lombok.Getter;
+import lombok.Setter;
 
 public class Statistics {
 
     @Expose
+    @Getter
+    @Setter
     private long playerKills;
 
     @Expose
+    @Getter
+    @Setter
     private long mobKills;
 
     @Expose
+    @Getter
+    @Setter
     private long deaths;
 
     @Expose
+    @Setter
     private long distanceFlown;
 
     @Expose
-    private Mined mined;
+    @Getter
+    @Setter
+    private Mined mined = new Mined();
 
     @Expose
-    private Placed placed;
-
-    public void setPlayerKills(long playerKills) {
-        this.playerKills = playerKills;
-    }
-
-    public long getPlayerKills() {
-        return playerKills;
-    }
-
-    public void setMobKills(long mobKills) {
-        this.mobKills = mobKills;
-    }
-
-    public long getMobKills() {
-        return mobKills;
-    }
-
-    public void setDeaths(long deaths) {
-        this.deaths = deaths;
-    }
-
-    public long getDeaths() {
-        return deaths;
-    }
-
-    public void setMined(Mined mined) {
-        this.mined = mined;
-    }
-
-    public Mined getMined() {
-        return mined;
-    }
-
-    public void setPlaced(Placed placed) {
-        this.placed = placed;
-    }
-
-    public Placed getPlaced() {
-        return placed;
-    }
-
-    public void setDistanceFlown(long distanceFlown) { this.distanceFlown = distanceFlown; }
-
-    public long getDistanceFlown() { return distanceFlown; }
-
+    @Getter
+    @Setter
+    private Placed placed = new Placed();
 
 }
