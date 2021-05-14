@@ -2,6 +2,7 @@ package io.servertap.api.v1.models;
 
 import com.google.gson.annotations.Expose;
 import io.servertap.Util;
+import io.servertap.api.v1.models.stats.Statistics;
 
 /**
  * An online player
@@ -29,11 +30,22 @@ public class Player {
     private String playTime;
 
     @Expose
+    private String lastDeath;
+
+    @Expose
     private Statistics statistics;
 
     public void setStatistics(Statistics statistics) { this.statistics = statistics; }
 
     public Statistics getStatistics() { return statistics; }
+
+    public void setLastDeath(String lastDeath) {
+        this.lastDeath = lastDeath;
+    }
+
+    public String getLastDeath() {
+        return lastDeath;
+    }
 
     public void setTicksAlive(long ticksAlive) { this.ticksAlive = ticksAlive; }
 
@@ -52,7 +64,7 @@ public class Player {
 
     public void setPlayTimeTicks(long playTimeTicks) {
         this.playTimeTicks = playTimeTicks;
-        this.playTime = Util.getFormattedTime(playTimeTicks);
+        this.playTime = Util.getFormattedTicks(playTimeTicks);
     }
 
     public String getPlayTime() {

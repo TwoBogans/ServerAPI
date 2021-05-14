@@ -40,7 +40,7 @@ public class Main extends JavaPlugin {
             randomMOTD = (RandomMOTD) getServer().getPluginManager().getPlugin("RandomMOTD");
         }
 
-        Bukkit.getScheduler().runTaskTimer(this, new TPS(), 100, 1);
+        Bukkit.getScheduler().runTaskTimer(this, new Util(), 100, 1);
 
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 
@@ -82,13 +82,8 @@ public class Main extends JavaPlugin {
     }
 
     private OpenApiOptions getOpenApiOptions() {
-        Info applicationInfo = new Info()
-                .title(this.getDescription().getName())
-                .version(this.getDescription().getVersion())
-                .description(this.getDescription().getDescription());
-        return new OpenApiOptions(applicationInfo).path("/json-docs")
-                .activateAnnotationScanningFor("io.servertap.api.v1")
-                .swagger(new SwaggerOptions("/api-docs"));
+        Info applicationInfo = new Info().title(getDescription().getName()).version(getDescription().getVersion()).description(getDescription().getDescription());
+        return new OpenApiOptions(applicationInfo).path("/json-docs").activateAnnotationScanningFor("io.servertap.api.v1").swagger(new SwaggerOptions("/api-docs"));
     }
 
 }
