@@ -8,6 +8,9 @@ public class Server {
     private String name;
 
     @Expose
+    private String motd;
+
+    @Expose
     private String version;
 
     @Expose
@@ -82,6 +85,14 @@ public class Server {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getMotd() {
+        return motd;
+    }
+
+    public void setMotd(String motd) {
+        this.motd = motd;
     }
 
     public String getVersion() {
