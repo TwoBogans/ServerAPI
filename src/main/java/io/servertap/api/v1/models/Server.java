@@ -8,9 +8,6 @@ public class Server {
     private String name;
 
     @Expose
-    private String motd;
-
-    @Expose
     private String version;
 
     @Expose
@@ -20,10 +17,10 @@ public class Server {
     private int online;
 
     @Expose
-    private Integer cpus = 0;
+    private Long uptime = 0L;
 
     @Expose
-    private Long uptime = 0L;
+    private Integer cpus = 0;
 
     @Expose
     private Long totalMemory = 0L;
@@ -85,14 +82,6 @@ public class Server {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getMotd() {
-        return motd;
-    }
-
-    public void setMotd(String motd) {
-        this.motd = motd;
     }
 
     public String getVersion() {

@@ -8,6 +8,7 @@ import java.util.Calendar;
  * A Bukkit/Spigot/Paper server
  */
 public class Stats {
+
     @Expose
     private String size;
 

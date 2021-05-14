@@ -28,12 +28,12 @@ public class ServerApi {
         Server server = new Server();
 
         server.setName(Bukkit.getServer().getName());
-        server.setMotd(Bukkit.getServer().getMotd());
         server.setVersion(Bukkit.getServer().getBukkitVersion());
         server.setOnline(Bukkit.getOnlinePlayers().size());
         server.setTps(TPS.getTPSString());
-        server.setCpus(Runtime.getRuntime().availableProcessors());
         server.setUptime(ManagementFactory.getRuntimeMXBean().getUptime());
+
+        server.setCpus(Runtime.getRuntime().availableProcessors());
         server.setMaxMemory(Runtime.getRuntime().maxMemory());
         server.setTotalMemory(Runtime.getRuntime().totalMemory());
         server.setFreeMemory(Runtime.getRuntime().freeMemory());

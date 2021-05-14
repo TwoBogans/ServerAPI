@@ -1,14 +1,12 @@
 # ServerAPI
 
-ServerAPI is a REST API for [2b2t.com.au](https://2b2t.com.au) 
-
-# Discord
-
+ServerAPI is a REST API for [2b2t.com.au](https://2b2t.com.au)  
 Join the Discord https://discord.gg/australia
 
-# Usage
+## Usage
 
-For a list of endpoints visit https://api.2b2t.com.au/swagger
+For a usage and a list of active endpoints, please visit the self hosted documentation.   
+https://api.2b2t.com.au/api-docs
 
 ### Examples
 

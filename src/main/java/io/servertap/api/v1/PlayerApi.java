@@ -37,33 +37,4 @@ public class PlayerApi {
 
         ctx.json(players);
     }
-
-    @OpenApi(
-            path = "/v1/players/all",
-            summary = "Gets all players that have ever joined the server ",
-            tags = {"Player"},
-            headers = {
-                    @OpenApiParam(name = "key")
-            },
-            responses = {
-                    @OpenApiResponse(status = "200", content = @OpenApiContent(from = io.servertap.api.v1.models.OfflinePlayer.class, isArray = true))
-            }
-    )
-    public static void offlinePlayersGet(Context ctx) {
-
-        ArrayList<io.servertap.api.v1.models.OfflinePlayer> players = new ArrayList<>();
-
-        OfflinePlayer[] offlinePlayers = Bukkit.getOfflinePlayers();
-
-        for (OfflinePlayer offlinePlayer : offlinePlayers) {
-            io.servertap.api.v1.models.OfflinePlayer p = new io.servertap.api.v1.models.OfflinePlayer();
-
-            p.setUuid(offlinePlayer.getUniqueId().toString());
-            p.setDisplayName(offlinePlayer.getName());
-
-            players.add(p);
-        }
-
-        ctx.json(players);
-    }
 }
