@@ -60,8 +60,9 @@ public class Main extends JavaPlugin {
         }
 
         app.routes(() -> {
-            path("v1", () -> {
+            path(Constants.API_V1, () -> {
                 get("players", PlayerApi::playersGet);
+                get("players/:uuid", PlayerApi::playerGet);
                 get("server", ServerApi::serverGet);
                 get("stats", StatsApi::statsGet);
                 get("queue", QueueApi::queueGet);

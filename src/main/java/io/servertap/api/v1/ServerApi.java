@@ -1,13 +1,14 @@
 package io.servertap.api.v1;
 
 import io.javalin.http.Context;
+import io.javalin.http.NotFoundResponse;
 import io.javalin.plugin.openapi.annotations.OpenApi;
 import io.javalin.plugin.openapi.annotations.OpenApiContent;
 import io.javalin.plugin.openapi.annotations.OpenApiParam;
 import io.javalin.plugin.openapi.annotations.OpenApiResponse;
+import io.servertap.Constants;
 import io.servertap.Main;
 import io.servertap.Util;
-import io.servertap.api.v1.models.Performance;
 import io.servertap.api.v1.models.Server;
 import org.bukkit.Bukkit;
 
@@ -28,7 +29,12 @@ public class ServerApi {
     )
     public static void serverGet(Context ctx) {
         Server server = new Server();
+
         long uptime = ManagementFactory.getRuntimeMXBean().getUptime();
+
+        if(Main.randomMOTD == null) {
+            throw new NotFoundResponse(Constants.RANDOM_MOTD_NOT_FOUND);
+        }
 
         server.setName(Bukkit.getServer().getName());
         server.setMotd(Main.randomMOTD.getRandomMotd());
@@ -36,16 +42,12 @@ public class ServerApi {
         server.setUptime(Util.getReadableTime(uptime));
         server.setOnline(Bukkit.getOnlinePlayers().size());
 
-//        Performance performance = new Performance();
-
         server.getPerformance().setTps(Util.getTPSFormatted());
         server.getPerformance().setUptimeLong(uptime);
         server.getPerformance().setCpus(Runtime.getRuntime().availableProcessors());
         server.getPerformance().setMaxMemory(Runtime.getRuntime().maxMemory());
         server.getPerformance().setTotalMemory(Runtime.getRuntime().totalMemory());
         server.getPerformance().setFreeMemory(Runtime.getRuntime().freeMemory());
-
-//        server.setPerformance(performance);
 
         ctx.json(server);
     }

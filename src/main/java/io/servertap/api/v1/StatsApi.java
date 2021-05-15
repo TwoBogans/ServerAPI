@@ -1,10 +1,12 @@
 package io.servertap.api.v1;
 
 import io.javalin.http.Context;
+import io.javalin.http.NotFoundResponse;
 import io.javalin.plugin.openapi.annotations.OpenApi;
 import io.javalin.plugin.openapi.annotations.OpenApiContent;
 import io.javalin.plugin.openapi.annotations.OpenApiParam;
 import io.javalin.plugin.openapi.annotations.OpenApiResponse;
+import io.servertap.Constants;
 import io.servertap.Main;
 import io.servertap.api.v1.models.Stats;
 
@@ -23,6 +25,10 @@ public class StatsApi {
     )
     public static void statsGet(Context ctx) {
         Stats stats = new Stats();
+
+        if(Main.worldStats == null) {
+            throw new NotFoundResponse(Constants.WORLD_STATS_NOT_FOUND);
+        }
 
         stats.setAge(Main.worldStats.getApi().getAge());
         stats.setSize(Double.parseDouble(Main.worldStats.getApi().getSize()));

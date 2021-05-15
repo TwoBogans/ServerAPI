@@ -1,10 +1,12 @@
 package io.servertap.api.v1;
 
 import io.javalin.http.Context;
+import io.javalin.http.NotFoundResponse;
 import io.javalin.plugin.openapi.annotations.OpenApi;
 import io.javalin.plugin.openapi.annotations.OpenApiContent;
 import io.javalin.plugin.openapi.annotations.OpenApiParam;
 import io.javalin.plugin.openapi.annotations.OpenApiResponse;
+import io.servertap.Constants;
 import io.servertap.Main;
 import io.servertap.api.v1.models.Queue;
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -25,21 +27,17 @@ public class QueueApi {
     public static void queueGet(Context ctx) {
         Queue queue = new Queue();
 
-        int regular = 0;
-        int priority = 0;
-        int veteran = 0;
-
-        if(Main.placeholderAPI != null && Main.pistonQueuePlaceholder != null) {
-
-            regular = Integer.parseInt(PlaceholderAPI.setPlaceholders(null, "%pistonqueue_regular%"));
-            priority = Integer.parseInt(PlaceholderAPI.setPlaceholders(null, "%pistonqueue_priority%"));
-            veteran = Integer.parseInt(PlaceholderAPI.setPlaceholders(null, "%pistonqueue_veteran%"));
-
+        if(Main.placeholderAPI == null) {
+            throw new NotFoundResponse(Constants.PAPI_NOT_FOUND);
         }
 
-        queue.setRegular(regular);
-        queue.setPriority(priority);
-        queue.setVeteran(veteran);
+        if(Main.pistonQueuePlaceholder == null) {
+            throw new NotFoundResponse(Constants.QUEUE_PAPI_NOT_FOUND);
+        }
+
+        queue.setRegular(Integer.parseInt(PlaceholderAPI.setPlaceholders(null, "%pistonqueue_regular%")));
+        queue.setPriority(Integer.parseInt(PlaceholderAPI.setPlaceholders(null, "%pistonqueue_priority%")));
+        queue.setVeteran(Integer.parseInt(PlaceholderAPI.setPlaceholders(null, "%pistonqueue_veteran%")));
 
         ctx.json(queue);
     }

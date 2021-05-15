@@ -3,6 +3,7 @@ package io.servertap;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class Util implements Runnable {
@@ -43,6 +44,14 @@ public class Util implements Runnable {
 
     private static final long[] TICKS = new long[600];
     private static int TICK_COUNT = 0;
+
+    public static UUID safeUUID(String input) {
+        try {
+            return UUID.fromString(input);
+        } catch (IllegalArgumentException iae) {
+            return null;
+        }
+    }
 
     public static double getTPSFormatted() {
         try {
