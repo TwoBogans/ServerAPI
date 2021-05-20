@@ -93,11 +93,11 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.moom0o</groupId>
-            <artifactId>WorldStatsRewritten</artifactId>
+            <groupId>me.moomoo</groupId>
+            <artifactId>WorldStats</artifactId>
             <version>-SNAPSHOT</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/libs/worldstats-1.7.jar</systemPath>
+            <systemPath>${project.basedir}/libs/WorldStats-1.7.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.github.anarchyplugins</groupId>
