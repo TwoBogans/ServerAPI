@@ -1,10 +1,8 @@
 package io.servertap.api.v1.models;
 
-import com.google.gson.annotations.Expose;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.Calendar;
+import me.clip.placeholderapi.libs.gson.annotations.Expose;
 
 public class Stats {
 
@@ -22,20 +20,5 @@ public class Stats {
     @Getter
     @Setter
     private long age;
-
-    @Expose
-    @Getter
-    @Setter
-    private int years;
-
-    @Expose
-    @Getter
-    @Setter
-    private int months;
-
-    @Expose
-    @Getter
-    @Setter
-    private int days;
 
 }

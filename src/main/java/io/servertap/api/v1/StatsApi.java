@@ -30,12 +30,9 @@ public class StatsApi {
             throw new NotFoundResponse(Constants.WORLD_STATS_NOT_FOUND);
         }
 
-        stats.setAge(Main.worldStats.getApi().getAge());
-        stats.setSize(Double.parseDouble(Main.worldStats.getApi().getSize()));
-        stats.setPlayers(Main.worldStats.getApi().getPlayers());
-        stats.setYears(Main.worldStats.getApi().getYears());
-        stats.setMonths(Main.worldStats.getApi().getMonths());
-        stats.setDays(Main.worldStats.getApi().getDays());
+        stats.setAge(Main.worldStats.time);
+        stats.setSize(Main.worldStats.size);
+        stats.setPlayers(Main.worldStats.offlinePlayers);
 
         ctx.json(stats);
     }

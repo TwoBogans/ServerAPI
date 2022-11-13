@@ -29,13 +29,7 @@ public class PlayerApi {
             }
     )
     public static void playersGet(Context ctx) {
-        ArrayList<Player> players = new ArrayList<>();
-
-        Bukkit.getOnlinePlayers().forEach((player -> {
-            players.add(setPlayer(player));
-        }));
-
-        ctx.json(players);
+        ctx.json(Bukkit.getOnlinePlayers().stream().map(PlayerApi::setPlayer));
     }
 
     @OpenApi(
@@ -73,6 +67,7 @@ public class PlayerApi {
         ctx.json(setPlayer(offlinePlayer.getPlayer()));
     }
 
+    // TODO USE CACHE
     private static Player setPlayer(org.bukkit.entity.Player player) {
         Player p = new Player();
 

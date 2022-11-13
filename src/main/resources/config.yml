@@ -1,2 +1,7 @@
 port: 4567
 debug: false
+balance:
+  exchange-key: ''
+  stripe-key: ''
+  currency: USD
+  costs: 255

@@ -5,13 +5,9 @@ import io.javalin.Javalin;
 import io.javalin.plugin.openapi.OpenApiOptions;
 import io.javalin.plugin.openapi.OpenApiPlugin;
 import io.javalin.plugin.openapi.ui.SwaggerOptions;
-import io.servertap.api.v1.PlayerApi;
-import io.servertap.api.v1.QueueApi;
-import io.servertap.api.v1.ServerApi;
-import io.servertap.api.v1.StatsApi;
+import io.servertap.api.v1.*;
 import io.swagger.v3.oas.models.info.Info;
 import me.clip.placeholderapi.PlaceholderAPIPlugin;
-import me.moomoo.worldstats.WorldStats;
 import net.pistonmaster.pistonqueueplaceholder.PistonQueuePlaceholder;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -24,18 +20,20 @@ import static io.javalin.apibuilder.ApiBuilder.path;
 
 public class Main extends JavaPlugin {
 
-    private static final Logger log = Bukkit.getLogger();
+    public static final Logger log = Bukkit.getLogger();
     private static Javalin app;
 
-    public static WorldStats worldStats;
+    public static org.au2b2t.worldstats.Main worldStats;
     public static RandomMOTD randomMOTD;
     public static PlaceholderAPIPlugin placeholderAPI;
     public static PistonQueuePlaceholder pistonQueuePlaceholder;
+    public static FileConfiguration bukkitConfig;
 
     @Override
     public void onEnable() {
         saveDefaultConfig();
-        FileConfiguration bukkitConfig = getConfig();
+
+        bukkitConfig = getConfig();
 
         setupHooks();
 
@@ -66,6 +64,7 @@ public class Main extends JavaPlugin {
                 get("server", ServerApi::serverGet);
                 get("stats", StatsApi::statsGet);
                 get("queue", QueueApi::queueGet);
+                get("balance", BalanceApi::balanceGet);
             });
         });
 
@@ -89,7 +88,7 @@ public class Main extends JavaPlugin {
 
     private void setupHooks() {
         if (getServer().getPluginManager().getPlugin("WorldStats") != null) {
-            worldStats = (WorldStats) getServer().getPluginManager().getPlugin("WorldStats");
+            worldStats = (org.au2b2t.worldstats.Main) getServer().getPluginManager().getPlugin("WorldStats");
         }
 
         if (getServer().getPluginManager().getPlugin("RandomMOTD") != null) {
