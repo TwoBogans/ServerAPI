@@ -10,6 +10,11 @@ import io.servertap.Constants;
 import io.servertap.Main;
 import io.servertap.api.v1.models.Stats;
 
+import java.time.*;
+import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
+import java.util.TimeZone;
+
 public class StatsApi {
 
     @OpenApi(
@@ -30,9 +35,27 @@ public class StatsApi {
             throw new NotFoundResponse(Constants.WORLD_STATS_NOT_FOUND);
         }
 
-        stats.setAge(Main.worldStats.time);
+        final long age = Main.worldStats.time;
+
+        stats.setAge(age);
         stats.setSize(Main.worldStats.size);
         stats.setPlayers(Main.worldStats.offlinePlayers);
+
+        Main.calendar.setTimeInMillis(System.currentTimeMillis() - age);
+
+        int year = Main.calendar.get(Calendar.YEAR) - 1970;
+        int month = Main.calendar.get(Calendar.MONTH);
+        int day = Main.calendar.get(Calendar.DAY_OF_MONTH) - 1;
+
+        if (year < 0) {
+            year = 0;
+            month = 0;
+            day = 0;
+        }
+
+        stats.setYears(year);
+        stats.setMonths(month);
+        stats.setDays(day);
 
         ctx.json(stats);
     }

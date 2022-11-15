@@ -5,7 +5,6 @@ import com.github.sarxos.xchange.ExchangeException;
 import com.github.sarxos.xchange.ExchangeRate;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
-import com.stripe.model.BalanceTransaction;
 import io.javalin.http.Context;
 import io.javalin.plugin.openapi.annotations.OpenApi;
 import io.javalin.plugin.openapi.annotations.OpenApiContent;

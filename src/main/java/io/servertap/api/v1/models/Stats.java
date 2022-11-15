@@ -21,4 +21,19 @@ public class Stats {
     @Setter
     private long age;
 
+    @Expose
+    @Getter
+    @Setter
+    private int years;
+
+    @Expose
+    @Getter
+    @Setter
+    private int months;
+
+    @Expose
+    @Getter
+    @Setter
+    private int days;
+
 }

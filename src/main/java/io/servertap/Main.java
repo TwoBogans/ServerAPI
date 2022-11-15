@@ -13,6 +13,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.Calendar;
+import java.util.TimeZone;
 import java.util.logging.Logger;
 
 import static io.javalin.apibuilder.ApiBuilder.get;
@@ -28,12 +30,14 @@ public class Main extends JavaPlugin {
     public static PlaceholderAPIPlugin placeholderAPI;
     public static PistonQueuePlaceholder pistonQueuePlaceholder;
     public static FileConfiguration bukkitConfig;
+    public static Calendar calendar;
 
     @Override
     public void onEnable() {
         saveDefaultConfig();
 
         bukkitConfig = getConfig();
+        calendar = Calendar.getInstance(TimeZone.getTimeZone("Australia/Sydney"));
 
         setupHooks();
 
