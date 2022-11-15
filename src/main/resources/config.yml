@@ -5,3 +5,7 @@ balance:
   stripe-key: ''
   currency: USD
   costs: 255
+  paypal:
+    mode: 'sandbox'
+    client-id: ''
+    client-secret: ''

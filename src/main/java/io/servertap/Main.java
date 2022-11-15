@@ -1,6 +1,8 @@
 package io.servertap;
 
 import com.github.anarchyplugins.randommotd.RandomMOTD;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import io.javalin.Javalin;
 import io.javalin.plugin.openapi.OpenApiOptions;
 import io.javalin.plugin.openapi.OpenApiPlugin;
@@ -31,6 +33,8 @@ public class Main extends JavaPlugin {
     public static PistonQueuePlaceholder pistonQueuePlaceholder;
     public static FileConfiguration bukkitConfig;
     public static Calendar calendar;
+
+    public static Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     @Override
     public void onEnable() {

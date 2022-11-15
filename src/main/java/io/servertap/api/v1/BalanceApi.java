@@ -3,6 +3,7 @@ package io.servertap.api.v1;
 import com.github.sarxos.xchange.ExchangeCache;
 import com.github.sarxos.xchange.ExchangeException;
 import com.github.sarxos.xchange.ExchangeRate;
+import com.paypal.base.rest.APIContext;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import io.javalin.http.Context;
@@ -10,12 +11,17 @@ import io.javalin.plugin.openapi.annotations.OpenApi;
 import io.javalin.plugin.openapi.annotations.OpenApiContent;
 import io.javalin.plugin.openapi.annotations.OpenApiParam;
 import io.javalin.plugin.openapi.annotations.OpenApiResponse;
+import io.servertap.paypal.Endpoints;
 import io.servertap.Main;
 import io.servertap.api.v1.models.Balance;
 import io.servertap.api.v1.models.Player;
+import io.servertap.paypal.BalanceResponse;
+import io.servertap.paypal.Http;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class BalanceApi {
@@ -38,7 +44,31 @@ public class BalanceApi {
         balance.setCosts(Main.bukkitConfig.getInt("balance.costs", 255));
         balance.setCurrency(Main.bukkitConfig.getString("balance.currency", "USD"));
 
+        Main.calendar.setTimeInMillis(System.currentTimeMillis());
+        Main.calendar.add(Calendar.MONTH, 1);
+        balance.setMonth(Main.calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
+
         ctx.json(balance);
+    }
+
+    private static int getPaypalBalance() {
+        try {
+            APIContext apiContext = new APIContext(
+                    Main.bukkitConfig.getString("balance.paypal.client-id"),
+                    Main.bukkitConfig.getString("balance.paypal.client-secret"),
+                    Main.bukkitConfig.getString("balance.paypal.mode", "sandbox")
+            );
+
+            Main.log.warning(apiContext.getAccessToken());
+
+            BalanceResponse balanceResponse = Main.GSON.fromJson(Http.GET(apiContext.getAccessToken(), Endpoints.BALANCE), BalanceResponse.class);
+
+            Main.log.info(String.format("Retrieved paypal balance! Amount = %s", balanceResponse.getTotalAvailable().getValue()));
+
+            return Integer.parseInt(balanceResponse.getTotalAvailable().getValue());
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     private static int getWalletBalance() {
@@ -50,6 +80,8 @@ public class BalanceApi {
             AtomicInteger totalBalance = new AtomicInteger(0);
 
             available.forEach(money -> totalBalance.getAndAdd(convertCurrency(money)));
+
+            totalBalance.getAndAdd(getPaypalBalance());
 
             return totalBalance.get();
         } catch (StripeException e) {

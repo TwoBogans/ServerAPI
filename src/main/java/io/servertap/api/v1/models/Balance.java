@@ -21,4 +21,9 @@ public class Balance {
     @Setter
     private String currency;
 
+    @Expose
+    @Getter
+    @Setter
+    private String month;
+
 }
