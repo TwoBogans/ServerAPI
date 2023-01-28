@@ -3,6 +3,9 @@
 ServerAPI is a REST API for [2b2t.au](https://2b2t.au)  
 Join the Discord https://discord.gg/popbob
 
+## Java SDK
+For a Java wrapper go to [ServerAPI-SDK](https://github.com/2b2tAustralia/ServerAPI-SDK)
+
 ## Usage
 
 For a usage and a list of active endpoints, please visit the self hosted documentation.   
