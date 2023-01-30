@@ -11,10 +11,10 @@ public class Server {
     @Setter
     private String name;
 
-    @Expose
-    @Getter
-    @Setter
-    private String motd;
+//    @Expose
+//    @Getter
+//    @Setter
+//    private String motd;
 
     @Expose
     @Getter

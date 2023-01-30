@@ -2,8 +2,9 @@ package io.servertap.api.v1.models;
 
 import lombok.Getter;
 import lombok.Setter;
-import io.servertap.api.v1.models.stats.Statistics;
 import me.clip.placeholderapi.libs.gson.annotations.Expose;
+
+import java.util.HashMap;
 
 public class Player {
 
@@ -50,6 +51,6 @@ public class Player {
     @Expose
     @Getter
     @Setter
-    private Statistics statistics = new Statistics();
+    private HashMap<String, Integer> statistics;
 
 }

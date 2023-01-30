@@ -78,5 +78,4 @@ public class Util implements Runnable {
         TICKS[(TICK_COUNT % TICKS.length)] = System.currentTimeMillis();
         TICK_COUNT += 1;
     }
-
 }

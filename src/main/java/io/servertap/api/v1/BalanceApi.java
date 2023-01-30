@@ -11,16 +11,15 @@ import io.javalin.plugin.openapi.annotations.OpenApi;
 import io.javalin.plugin.openapi.annotations.OpenApiContent;
 import io.javalin.plugin.openapi.annotations.OpenApiParam;
 import io.javalin.plugin.openapi.annotations.OpenApiResponse;
-import io.servertap.paypal.Endpoints;
 import io.servertap.Main;
 import io.servertap.api.v1.models.Balance;
 import io.servertap.api.v1.models.Player;
 import io.servertap.paypal.BalanceResponse;
+import io.servertap.paypal.Endpoints;
 import io.servertap.paypal.Http;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -51,43 +50,35 @@ public class BalanceApi {
         ctx.json(balance);
     }
 
-    private static int getPaypalBalance() {
-        try {
-            APIContext apiContext = new APIContext(
-                    Main.bukkitConfig.getString("balance.paypal.client-id"),
-                    Main.bukkitConfig.getString("balance.paypal.client-secret"),
-                    Main.bukkitConfig.getString("balance.paypal.mode", "sandbox")
-            );
 
-            Main.log.warning(apiContext.getAccessToken());
-
-            BalanceResponse balanceResponse = Main.GSON.fromJson(Http.GET(apiContext.getAccessToken(), Endpoints.BALANCE), BalanceResponse.class);
-
-            Main.log.info(String.format("Retrieved paypal balance! Amount = %s", balanceResponse.getTotalAvailable().getValue()));
-
-            return Integer.parseInt(balanceResponse.getTotalAvailable().getValue());
-        } catch (Exception e) {
-            return 0;
-        }
-    }
 
     private static int getWalletBalance() {
         try {
             Stripe.apiKey = Main.bukkitConfig.getString("balance.stripe-key");
 
-            List<com.stripe.model.Balance.Money> available = com.stripe.model.Balance.retrieve().getAvailable();
-
-            AtomicInteger totalBalance = new AtomicInteger(0);
+            var totalBalance = new AtomicInteger(0);
+            var available = com.stripe.model.Balance.retrieve().getAvailable();
+            var pending = com.stripe.model.Balance.retrieve().getPending();
 
             available.forEach(money -> totalBalance.getAndAdd(convertCurrency(money)));
+            pending.forEach(money -> totalBalance.getAndAdd(convertCurrency(money)));
 
-            totalBalance.getAndAdd(getPaypalBalance());
+            totalBalance.getAndAdd(convertCurrency(
+                    "AUD",
+                    Main.bukkitConfig.getString("balance.currency", "USD"),
+                    Main.bukkitConfig.getInt("balance.bank", 0)
+            ));
+
+//           TODO
+//            totalBalance.getAndAdd(getPaypalBalance());
 
             return totalBalance.get();
         } catch (StripeException e) {
             return 0;
         }
     }
+
+    // TODO USE FC-API
 
     private static int convertCurrency(String from, String to, float amount)  {
         Main.log.info(String.format("Converting $%s from %s to %s", amount, from, to));
@@ -112,5 +103,24 @@ public class BalanceApi {
                 Main.bukkitConfig.getString("balance.currency", "USD"),
                 Math.abs(stripeMoney.getAmount()) / 100f
         );
+    }
+
+    // TODO Fix
+    private static int getPaypalBalance() {
+        try {
+            APIContext apiContext = new APIContext(
+                    Main.bukkitConfig.getString("balance.paypal.client-id"),
+                    Main.bukkitConfig.getString("balance.paypal.client-secret"),
+                    Main.bukkitConfig.getString("balance.paypal.mode", "sandbox")
+            );
+
+            BalanceResponse balanceResponse = Main.GSON.fromJson(Http.GET(apiContext.fetchAccessToken(), Endpoints.BALANCE), BalanceResponse.class);
+
+            Main.log.info(String.format("Retrieved paypal balance! Amount = %s", balanceResponse.getTotalAvailable().getValue()));
+
+            return Integer.parseInt(balanceResponse.getTotalAvailable().getValue());
+        } catch (Exception e) {
+            return 0;
+        }
     }
 }

@@ -11,9 +11,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Statistic;
+import org.bukkit.entity.EntityType;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class PlayerApi {
 
@@ -29,7 +31,11 @@ public class PlayerApi {
             }
     )
     public static void playersGet(Context ctx) {
-        ctx.json(Bukkit.getOnlinePlayers().stream().map(PlayerApi::setPlayer));
+        var players = Bukkit.getOnlinePlayers()
+                .stream()
+                .map(player -> setPlayer(player, false))
+                .collect(Collectors.toList());
+        ctx.json(players);
     }
 
     @OpenApi(
@@ -47,7 +53,7 @@ public class PlayerApi {
                     @OpenApiResponse(status = "200", content = @OpenApiContent(from = Player.class))
             }
     )
-    public static void playerGet(Context ctx) {
+    public static void playerUUIDGet(Context ctx) {
         if (ctx.pathParam("uuid").isEmpty()) {
             throw new BadRequestResponse(Constants.PLAYER_UUID_MISSING);
         }
@@ -64,11 +70,11 @@ public class PlayerApi {
             throw new NotFoundResponse(Constants.PLAYER_NOT_FOUND);
         }
 
-        ctx.json(setPlayer(offlinePlayer.getPlayer()));
+        ctx.json(setPlayer(offlinePlayer.getPlayer(), true));
     }
 
     // TODO USE CACHE
-    private static Player setPlayer(org.bukkit.entity.Player player) {
+    private static Player setPlayer(org.bukkit.entity.Player player, boolean stats) {
         Player p = new Player();
 
         p.setUuid(player.getUniqueId().toString());
@@ -81,16 +87,51 @@ public class PlayerApi {
         p.setJoinDate(Util.getFormattedDate(p.getJoinDateMillis()));
         p.setPlayTime(Util.getFormattedTicks(p.getPlayTimeTicks()));
 
-        p.getStatistics().setDistanceFlown(player.getStatistic(Statistic.FLY_ONE_CM));
-        p.getStatistics().setPlayerKills(player.getStatistic(Statistic.PLAYER_KILLS));
-        p.getStatistics().setMobKills(player.getStatistic(Statistic.MOB_KILLS));
-        p.getStatistics().setDeaths(player.getStatistic(Statistic.DEATHS));
+        var tempMap = new HashMap<String, Integer>();
 
-        p.getStatistics().getMined().setObsidian(player.getStatistic(Statistic.MINE_BLOCK, Material.OBSIDIAN));
-        p.getStatistics().getMined().setEnderChest(player.getStatistic(Statistic.MINE_BLOCK, Material.ENDER_CHEST));
+        if (stats) {
+            for (Statistic statistic : Statistic.values()) {
+                if (!statistic.isSubstatistic()) {
+                    tempMap.put(statistic.name(), player.getStatistic(statistic));
+                }
 
-        p.getStatistics().getPlaced().setObsidian(player.getStatistic(Statistic.USE_ITEM, Material.OBSIDIAN));
-        p.getStatistics().getPlaced().setEnderChests(player.getStatistic(Statistic.USE_ITEM, Material.ENDER_CHEST));
+                if (statistic.getType() == Statistic.Type.BLOCK || statistic.getType() == Statistic.Type.ITEM) {
+                    for (Material material : Material.values()) {
+                        var name = "%s_%s".formatted(statistic.name(), material.name());
+                        int stat = -1;
+
+                        try {
+                            stat = player.getStatistic(statistic, material);
+                        } catch (Exception e) {
+                            System.out.printf("%s: %s", name, e.getMessage());
+                        }
+
+                        if (stat != -1) {
+                            tempMap.put(name.toUpperCase(), stat);
+                        }
+                    }
+                }
+
+                if (statistic.getType() == Statistic.Type.ENTITY) {
+                    for (EntityType entityType : EntityType.values()) {
+                        var name = "%s_%s".formatted(statistic.name(), entityType.name());
+                        int stat = -1;
+
+                        try {
+                            stat = player.getStatistic(statistic, entityType);
+                        } catch (Exception e) {
+                            System.out.printf("%s: %s", name, e.getMessage());
+                        }
+
+                        if (stat != -1) {
+                            tempMap.put(name.toUpperCase(), stat);
+                        }
+                    }
+                }
+            }
+        }
+
+        p.setStatistics(tempMap);
         return p;
     }
 }

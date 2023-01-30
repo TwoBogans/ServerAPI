@@ -45,10 +45,10 @@ public class Main extends JavaPlugin {
 
         setupHooks();
 
+        Bukkit.getPluginManager().registerEvents(new ChatApi(), this);
         Bukkit.getScheduler().runTaskTimer(this, new Util(), 100, 1);
 
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-
         Thread.currentThread().setContextClassLoader(Main.class.getClassLoader());
 
         if (app == null) {
@@ -65,16 +65,16 @@ public class Main extends JavaPlugin {
             app.before(ctx -> log.info(ctx.req.getPathInfo()));
         }
 
-        app.routes(() -> {
-            path(Constants.API_V1, () -> {
-                get("players", PlayerApi::playersGet);
-                get("players/:uuid", PlayerApi::playerGet);
-                get("server", ServerApi::serverGet);
-                get("stats", StatsApi::statsGet);
-                get("queue", QueueApi::queueGet);
-                get("balance", BalanceApi::balanceGet);
-            });
-        });
+        app.routes(() -> path(Constants.API_V1, () -> {
+            get("players", PlayerApi::playersGet);
+            get("players/:uuid", PlayerApi::playerUUIDGet);
+            get("seen/:uuid", OfflinePlayerApi::seenGet);
+            get("server", ServerApi::serverGet);
+            get("stats", StatsApi::statsGet);
+            get("queue", QueueApi::queueGet);
+            get("balance", BalanceApi::balanceGet);
+            get("chat", ChatApi::chatGet);
+        }));
 
         Thread.currentThread().setContextClassLoader(classLoader);
 

@@ -1,13 +1,10 @@
 package io.servertap.api.v1;
 
 import io.javalin.http.Context;
-import io.javalin.http.NotFoundResponse;
 import io.javalin.plugin.openapi.annotations.OpenApi;
 import io.javalin.plugin.openapi.annotations.OpenApiContent;
 import io.javalin.plugin.openapi.annotations.OpenApiParam;
 import io.javalin.plugin.openapi.annotations.OpenApiResponse;
-import io.servertap.Constants;
-import io.servertap.Main;
 import io.servertap.Util;
 import io.servertap.api.v1.models.Server;
 import org.bukkit.Bukkit;
@@ -32,12 +29,7 @@ public class ServerApi {
 
         long uptime = ManagementFactory.getRuntimeMXBean().getUptime();
 
-        if(Main.randomMOTD == null) {
-            throw new NotFoundResponse(Constants.RANDOM_MOTD_NOT_FOUND);
-        }
-
-        server.setName(Bukkit.getServer().getName());
-        server.setMotd(Main.randomMOTD.getRandomMotd());
+        server.setName(Bukkit.getServer().getName());;
         server.setVersion(Bukkit.getServer().getBukkitVersion());
         server.setUptime(Util.getReadableTime(uptime));
         server.setOnline(Bukkit.getOnlinePlayers().size());
